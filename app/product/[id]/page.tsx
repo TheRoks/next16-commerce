@@ -19,7 +19,7 @@ export default async function ProductPage({ params }: Props) {
       <Link href="/" className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium">
         {'<- Back to Home'}
       </Link>
-      <div className="grid place-content-center gap-8">
+      <div className="mx-150 flex flex-col gap-8">
         <Card>
           <Suspense fallback={<ProductSkeleton />}>
             <Product productId={productId} />
