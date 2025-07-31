@@ -20,7 +20,7 @@ export default async function ProductPage({ params }: Props) {
       <Link href="/" className="text-primary hover:text-primary-dark inline-flex items-center text-sm font-medium">
         {'<- Back to Home'}
       </Link>
-      <div className="mx-0 flex flex-col gap-8 sm:mx-20 md:mx-80 lg:mx-100">
+      <div className="flex max-w-100 flex-col gap-80">
         <Card>
           <Suspense fallback={<ProductSkeleton isDetails />}>
             <Product
