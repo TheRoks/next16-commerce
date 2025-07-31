@@ -15,14 +15,14 @@ export default async function Footer() {
     <footer className="bg-white dark:bg-black">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-10">
         <ShowMore initial={5}>
-          {categories.map(cat => {
+          {categories.map(category => {
             return (
               <Link
-                key={cat}
+                key={category}
                 href="#"
                 className="text-gray dark:text-gray hover:text-primary block text-sm transition-colors"
               >
-                {cat}
+                {category}
               </Link>
             );
           })}
