@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import Footer from '@/components/Footer';
-import { DiscountBanner } from '@/components/banner/Banner';
+
 import { getIsAuthenticated } from '@/modules/auth/auth-queries';
 import { AuthProvider } from '@/modules/auth/components/AuthProvider';
 import UserProfile, { UserProfileSkeleton } from '@/modules/auth/components/UserProfile';
@@ -34,10 +34,7 @@ export default async function RootLayout({ children, modal }: { children: React.
                 <UserProfile />
               </Suspense>
             </header>
-            <main className="flex flex-1 flex-col gap-10 p-4 pb-8 sm:p-10 sm:pb-8 lg:pb-20 2xl:px-60">
-              <DiscountBanner />
-              {children}
-            </main>
+            <main className="flex flex-1 flex-col gap-10 p-4 pb-8 sm:p-10 sm:pb-8 lg:pb-20 2xl:px-60">{children}</main>
             <Footer />
           </div>
           {modal}
