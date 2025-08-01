@@ -2,7 +2,7 @@ import { ArrowUp, ArrowDown } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Search from '@/components/Search';
-import { DiscountBanner } from '@/components/banner/Banner';
+
 import LinkStatus from '@/components/ui/LinkStatus';
 import ProductList, { ProductListSkeleton } from '@/modules/product/components/ProductList';
 
@@ -20,7 +20,6 @@ export default async function RootPage({ searchParams }: Props) {
 
   return (
     <>
-      <DiscountBanner />
       <Search />
       <div className="flex h-full grow flex-col gap-4">
         <SortButton sort={sort} searchQuery={q} />
