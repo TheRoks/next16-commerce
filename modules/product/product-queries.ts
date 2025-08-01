@@ -8,7 +8,7 @@ import { slow } from '@/utils/slow';
 
 export const getProduct = cache(async (productId: number) => {
   'use cache';
-  cacheLife('hours');
+  cacheLife('days');
 
   await slow();
 
@@ -23,7 +23,7 @@ export const getProduct = cache(async (productId: number) => {
 
 export const getProductDetails = cache(async (productId: number) => {
   'use cache';
-  cacheLife('hours');
+  cacheLife('days');
 
   await slow();
 
