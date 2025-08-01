@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import AppLayout from '@/components/layout/AppLayout';
+import AppLayout from '@/components/AppLayout';
 import { getIsAuthenticated } from '@/modules/auth/auth-queries';
 import { AuthProvider } from '@/modules/auth/components/AuthProvider';
 import UserProfile, { UserProfileSkeleton } from '@/modules/user/UserProfile';
