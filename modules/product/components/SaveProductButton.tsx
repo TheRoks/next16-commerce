@@ -1,8 +1,9 @@
 'use client';
 
-import { Bookmark, BookmarkCheck, LoaderCircle } from 'lucide-react';
+import { Bookmark, BookmarkCheck } from 'lucide-react';
 import React, { useOptimistic, useTransition } from 'react';
 
+import { cn } from '@/utils/cn';
 import { toggleSaveProduct } from '../product-actions';
 
 type Props = {
@@ -24,17 +25,18 @@ export default function SaveProductButton({ productId, initialSaved }: Props) {
   return (
     <form action={handleToggleSave} className="mr-2 flex items-center gap-2">
       <button
-        className="text-primary hover:text-primary-dark flex items-center gap-2 text-sm transition-colors disabled:opacity-50"
-        title={optimisticSaved ? 'Remove from saved' : 'Save for later'}
+        className={cn(
+          'text-primary hover:text-primary-dark flex cursor-pointer items-center gap-2 text-sm transition-colors',
+          isPending && 'opacity-70',
+        )}
       >
-        {optimisticSaved ? <BookmarkCheck className="size-5" /> : <Bookmark className="size-5" />}
+        {optimisticSaved ? (
+          <BookmarkCheck aria-hidden className="size-5" />
+        ) : (
+          <Bookmark aria-hidden className="size-5" />
+        )}
         <span>{optimisticSaved ? 'Unsave product' : 'Save product'}</span>
       </button>
-      {isPending && (
-        <div className="text-gray h-fit w-fit animate-spin">
-          <LoaderCircle aria-hidden="true" width={20} height={20} />
-        </div>
-      )}
     </form>
   );
 }

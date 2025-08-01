@@ -41,7 +41,7 @@ export default async function ProductDetails({ productId }: Props) {
 
       <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
         {isAuthenticated ? (
-          <Suspense fallback={<Bookmark className="text-primary size-5" />}>
+          <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
             <SavedProduct productId={productId} />
           </Suspense>
         ) : (
