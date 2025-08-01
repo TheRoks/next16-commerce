@@ -18,10 +18,10 @@ export default async function Product({ productId, details, imageClassName }: Pr
   const product = await getProduct(productId);
 
   return (
-    <div className="dark:bg-card-dark flex flex-col bg-white text-black">
+    <div className="flex flex-col">
       <ImagePlaceholder className={imageClassName} />
       <div className="flex flex-1 flex-col p-4">
-        <h2 className="mb-2 text-xl font-bold text-black dark:text-white">{product.name}</h2>
+        <h2 className="mb-2 text-xl font-bold">{product.name}</h2>
         {product.description && <p className="text-gray mb-4 flex-1 text-sm">{product.description}</p>}
         <div className="mt-auto flex items-center justify-between">
           <p className="text-primary text-lg font-semibold">${product.price.toFixed(2)}</p>

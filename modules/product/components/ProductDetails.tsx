@@ -18,7 +18,7 @@ export default async function ProductDetails({ productId }: Props) {
   const productDetails = await getProductDetails(productId);
 
   return (
-    <div className="dark:bg-card-dark w-full rounded-lg bg-white p-4">
+    <div className="w-full rounded-lg p-4">
       <h2 className="mb-3 text-lg font-medium">Product Details</h2>
       <div className="text-gray dark:text-gray space-y-2 text-sm">
         <p>

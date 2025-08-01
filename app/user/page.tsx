@@ -24,7 +24,7 @@ export default async function UserPage() {
       <div className="flex items-center gap-4">
         <User className="text-primary size-16 rounded-full bg-gray-100 p-3 dark:bg-gray-800" />
         <div className="flex flex-col">
-          <h1 className="text-3xl font-bold text-black dark:text-white">{account.name}</h1>
+          <h1 className="text-3xl font-bold">{account.name}</h1>
           {account.firstName && account.lastName && (
             <p className="text-lg text-gray-600 dark:text-gray-400">
               {account.firstName} {account.lastName}
@@ -34,7 +34,7 @@ export default async function UserPage() {
       </div>
       <div className="grid gap-6 md:grid-cols-2">
         <div>
-          <h2 className="mb-4 text-xl font-semibold text-black dark:text-white">Contact Information</h2>
+          <h2 className="mb-4 text-xl font-semibold">Contact Information</h2>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Mail className="text-primary size-5" />
@@ -63,7 +63,7 @@ export default async function UserPage() {
         </div>
         {account.accountDetail && (
           <div>
-            <h2 className="mb-4 text-xl font-semibold text-black dark:text-white">Preferences</h2>
+            <h2 className="mb-4 text-xl font-semibold">Preferences</h2>
             <div className="space-y-4">
               <PreferenceItem label="Theme" value={account.accountDetail.theme || 'Default'} />
               <PreferenceItem label="Language" value={(account.accountDetail.language || 'en').toUpperCase()} />
@@ -81,7 +81,7 @@ export default async function UserPage() {
       </div>
       {account.birthDate && (
         <div>
-          <h2 className="mb-4 text-xl font-semibold text-black dark:text-white">Personal Information</h2>
+          <h2 className="mb-4 text-xl font-semibold">Personal Information</h2>
           <PreferenceItem label="Birth Date" value={new Date(account.birthDate).toLocaleDateString()} />
         </div>
       )}
