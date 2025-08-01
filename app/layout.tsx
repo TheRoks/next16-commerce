@@ -9,14 +9,11 @@ export const metadata: Metadata = {
   title: 'Next 15 Commerce',
 };
 
-export default async function RootLayout({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex min-h-screen flex-col">
-          {children}
-          {modal}
-        </div>
+        <div className="flex min-h-screen flex-col">{children}</div>
         <Footer />
       </body>
     </html>
