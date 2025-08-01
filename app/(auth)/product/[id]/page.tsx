@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Card from '@/components/ui/Card';
@@ -15,6 +16,9 @@ type Props = {
 };
 
 export default async function ProductPage({ params }: Props) {
+  'use cache';
+  cacheLife('days');
+
   const { id } = await params;
   const productId = Number(id);
   prefetchProductDetails(productId);
