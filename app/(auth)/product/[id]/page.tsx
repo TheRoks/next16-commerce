@@ -26,7 +26,14 @@ export default async function ProductPage({ params }: Props) {
       </Link>
       <div className="flex w-[700px] flex-col gap-8 self-center">
         <Card>
-          <Suspense fallback={<ProductSkeleton isDetails />}>
+          <Suspense
+            fallback={
+              <>
+                <ProductSkeleton isDetails />
+                <ProductDetailsSkeleton />
+              </>
+            }
+          >
             <Product
               productId={productId}
               details={
