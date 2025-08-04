@@ -20,7 +20,7 @@ export default async function ProductList({ searchQuery, sort, page = 1 }: Props
   }
 
   return (
-    <div className="flex h-full grow flex-col justify-between gap-8">
+    <div className="flex h-full grow flex-col justify-between gap-4 sm:gap-8">
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
         {products.map(product => {
           const shouldPrefetch = currentPage === 1;

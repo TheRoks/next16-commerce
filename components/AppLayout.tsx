@@ -17,7 +17,9 @@ export default function AppLayout({ headerContent, children }: Props) {
         </h1>
         {headerContent}
       </header>
-      <main className="mb-8 flex flex-1 flex-col gap-10 p-4 sm:p-10 lg:mb-10 2xl:px-60">{children}</main>
+      <main className="mb-4 flex flex-1 flex-col gap-4 p-4 sm:mb-8 sm:gap-10 sm:p-10 lg:mb-10 2xl:px-60">
+        {children}
+      </main>
     </>
   );
 }
