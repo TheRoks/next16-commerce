@@ -3,7 +3,7 @@ import { unauthorized } from 'next/navigation';
 import React, { Suspense } from 'react';
 import { getCurrentAccountWithDetails } from '@/modules/auth/auth-queries';
 import SavedProducts, { SavedProductsSkeleton } from '@/modules/product/components/SavedProducts';
-import Discounts from '@/modules/user/Discounts';
+import Discounts from '@/modules/user/components/Discounts';
 
 function PreferenceItem({ label, value }: { label: string; value: string }) {
   return (
