@@ -37,7 +37,7 @@ export const getProductDetails = cache(async (productId: number) => {
   }
   return productDetails;
 });
-export const getProducts = cache(async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 9) => {
+export const getProducts = cache(async (searchQuery?: string, sort?: 'asc' | 'desc', page = 1, limit = 12) => {
   await slow(500);
 
   const skip = (page - 1) * limit;

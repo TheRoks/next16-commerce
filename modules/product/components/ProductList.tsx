@@ -23,10 +23,12 @@ export default async function ProductList({ searchQuery, sort, page = 1 }: Props
     <div className="flex h-full grow flex-col justify-between gap-8">
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {products.map(product => {
+          const shouldPrefetch = currentPage === 1;
           return (
             <Link
               href={`/product/${product.id}`}
               key={product.id}
+              prefetch={shouldPrefetch}
               className="border-divider dark:border-divider-dark dark:bg-card-dark flex flex-row rounded-lg border bg-white transition-shadow hover:shadow-md"
             >
               <ImagePlaceholder className="h-full w-24 sm:w-28" />
