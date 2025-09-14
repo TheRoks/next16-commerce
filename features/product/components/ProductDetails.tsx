@@ -1,5 +1,7 @@
 import { Bookmark } from 'lucide-react';
-import React, { Suspense } from 'react';
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
+import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Skeleton from '@/components/ui/Skeleton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
@@ -8,13 +10,18 @@ import SaveProductButton from './SaveProductButton';
 
 type Props = {
   productId: number;
+  children: React.ReactNode;
 };
 
 export function preloadProductDetails(productId: number) {
   void getProductDetails(productId);
 }
 
-export default async function ProductDetails({ productId }: Props) {
+export default async function ProductDetails({ productId, children }: Props) {
+  'use cache';
+  cacheLife('days');
+  cacheTag('product-' + productId);
+
   const productDetails = await getProductDetails(productId);
 
   return (
@@ -39,20 +46,13 @@ export default async function ProductDetails({ productId }: Props) {
             <span className="font-medium">Warranty:</span> {productDetails?.warrantyInfo || 'No warranty information'}
           </p>
         </div>
-
-        <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">
-          <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
-            <Boundary rendering="dynamic">
-              <SavedProduct productId={productId} />
-            </Boundary>
-          </Suspense>
-        </div>
+        <div className="border-divider dark:border-divider-dark mt-6 border-t pt-4">{children}</div>
       </div>
     </Boundary>
   );
 }
 
-async function SavedProduct({ productId }: { productId: number }) {
+export async function SavedProduct({ productId }: { productId: number }) {
   const loggedIn = await getIsAuthenticated();
 
   if (!loggedIn) {

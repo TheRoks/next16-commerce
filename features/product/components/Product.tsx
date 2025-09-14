@@ -1,3 +1,5 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
@@ -13,6 +15,10 @@ type Props = {
 };
 
 export default async function Product({ productId, details, imageClassName }: Props) {
+  'use cache';
+  cacheLife('days');
+  cacheTag('product-' + productId);
+
   const product = await getProduct(productId);
 
   return (

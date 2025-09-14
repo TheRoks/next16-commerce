@@ -1,11 +1,13 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Bookmark } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
+import Boundary from '@/components/internal/Boundary';
 import Card from '@/components/ui/Card';
 import Product, { ProductSkeleton } from '@/features/product/components/Product';
 import ProductDetails, {
   preloadProductDetails,
   ProductDetailsSkeleton,
+  SavedProduct,
 } from '@/features/product/components/ProductDetails';
 import Reviews, { ReviewsSkeleton } from '@/features/product/components/Reviews';
 
@@ -34,7 +36,13 @@ export default async function ProductPage({ params }: PageProps<'/product/[id]'>
               productId={productId}
               details={
                 <Suspense key={productId} fallback={<ProductDetailsSkeleton />}>
-                  <ProductDetails productId={productId} />
+                  <ProductDetails productId={productId}>
+                    <Suspense fallback={<Bookmark aria-hidden className="text-gray size-5" />}>
+                      <Boundary rendering="dynamic">
+                        <SavedProduct productId={productId} />
+                      </Boundary>
+                    </Suspense>
+                  </ProductDetails>
                 </Suspense>
               }
             />
