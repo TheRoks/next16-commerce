@@ -8,9 +8,9 @@ import LinkButton from '@/components/ui/LinkButton';
 import { getFeaturedProducts } from '../product-queries';
 import type { Route } from 'next';
 
-let featuredIndex = 0;
+export let featuredIndex = 0;
 
-async function refreshFeatured() {
+export async function refreshFeatured() {
   'use server';
 
   // Cycle featuredIndex between 1 and 4
