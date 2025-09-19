@@ -35,7 +35,7 @@ export default async function ProductDetails({ productId, children }: Props) {
       <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
         <div className="flex justify-between">
           <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
-          <form action={setFeaturedForProduct}>
+          <form className="hidden sm:flex" action={setFeaturedForProduct}>
             <Button title="Mark as Featured" variant="secondary">
               Feature This Product
             </Button>
