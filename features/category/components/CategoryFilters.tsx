@@ -15,7 +15,7 @@ export default async function CategoryFilters({ selectedCategory, searchQuery, s
 
   return (
     <Boundary hydration="server" rendering="hybrid">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 md:flex-col md:gap-1">
         <Link
           scroll={false}
           href={{
@@ -25,11 +25,11 @@ export default async function CategoryFilters({ selectedCategory, searchQuery, s
               ...(sort && { sort }),
             },
           }}
-          className="text-xs font-bold tracking-wide uppercase"
+          className="text-xs font-bold tracking-wide uppercase md:block"
         >
-          <LinkStatus variant="background">
+          <LinkStatus variant="spinner">
             <div
-              className={`px-3 py-1.5 transition-colors ${
+              className={`px-3 py-1.5 transition-colors md:w-full ${
                 !selectedCategory
                   ? 'bg-accent text-white'
                   : 'border-divider dark:border-divider-dark border bg-white hover:bg-gray-50 dark:bg-black dark:hover:bg-gray-900'
@@ -52,11 +52,11 @@ export default async function CategoryFilters({ selectedCategory, searchQuery, s
                   category,
                 },
               }}
-              className="text-xs font-bold tracking-wide uppercase"
+              className="text-xs font-bold tracking-wide uppercase md:block"
             >
-              <LinkStatus variant="background">
+              <LinkStatus variant="spinner">
                 <div
-                  className={`px-3 py-1.5 transition-colors ${
+                  className={`px-3 py-1.5 transition-colors md:w-full ${
                     selectedCategory === category
                       ? 'bg-accent text-white'
                       : 'border-divider dark:border-divider-dark border bg-white hover:bg-gray-50 dark:bg-black dark:hover:bg-gray-900'
@@ -75,8 +75,8 @@ export default async function CategoryFilters({ selectedCategory, searchQuery, s
 
 export function CategoryFiltersSkeleton() {
   return (
-    <div className="flex flex-wrap gap-2">
-      <div className="border-divider dark:border-divider-dark border px-3 py-1.5 text-xs font-bold tracking-wide text-gray-400 uppercase dark:text-gray-500">
+    <div className="flex flex-wrap gap-2 md:flex-col md:gap-1">
+      <div className="border-divider dark:border-divider-dark border px-3 py-1.5 text-xs font-bold tracking-wide text-gray-400 uppercase md:w-full dark:text-gray-500">
         Loading
       </div>
     </div>
