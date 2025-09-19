@@ -51,7 +51,7 @@ export function FeaturedCategoriesSkeleton() {
       {Array.from({ length: 4 }).map((_, i) => {
         return (
           <div key={i} className="border-divider dark:border-divider-dark dark:bg-card-dark border bg-white">
-            <Skeleton className="mb-[25px] p-6" />
+            <Skeleton className="mb-[6px] p-6" />
           </div>
         );
       })}

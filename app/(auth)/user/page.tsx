@@ -2,9 +2,7 @@ import { Mail, MapPin, Phone, User } from 'lucide-react';
 import { unauthorized } from 'next/navigation';
 import React, { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
-import Button from '@/components/ui/Button';
 import { getCurrentAccountWithDetails } from '@/features/auth/auth-queries';
-import { refreshFeatured } from '@/features/product/components/Hero';
 import Discounts, { DiscountsSkeleton } from '@/features/user/components/Discounts';
 import SavedProducts, { SavedProductsSkeleton } from '@/features/user/components/SavedProducts';
 
@@ -19,23 +17,16 @@ export default async function UserPage() {
     <div className="flex flex-col gap-16 xl:mx-40 2xl:mx-60">
       <Boundary rendering="dynamic" hydration="server">
         <div className="border-divider dark:border-divider-dark flex flex-col gap-6 border bg-white p-8 dark:bg-black">
-          <div className="flex justify-between">
-            <div className="flex items-center gap-4">
-              <User className="text-primary size-16 rounded-full bg-gray-100 p-3 dark:bg-gray-800" />
-              <div className="flex flex-col">
-                <h1 className="text-3xl font-bold uppercase">{account.name}</h1>
-                {account.firstName && account.lastName && (
-                  <p className="text-lg text-gray-600 dark:text-gray-400">
-                    {account.firstName} {account.lastName}
-                  </p>
-                )}
-              </div>
+          <div className="flex items-center gap-4">
+            <User className="text-primary size-16 rounded-full bg-gray-100 p-3 dark:bg-gray-800" />
+            <div className="flex flex-col">
+              <h1 className="text-3xl font-bold uppercase">{account.name}</h1>
+              {account.firstName && account.lastName && (
+                <p className="text-lg text-gray-600 dark:text-gray-400">
+                  {account.firstName} {account.lastName}
+                </p>
+              )}
             </div>
-            <form className="hidden h-fit sm:flex" action={refreshFeatured}>
-              <Button title="Reset" variant="secondary">
-                Refresh featured
-              </Button>
-            </form>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div>

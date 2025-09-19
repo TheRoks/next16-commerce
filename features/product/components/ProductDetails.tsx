@@ -3,10 +3,12 @@ import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
+import Button from '@/components/ui/Button';
 import Divider from '@/components/ui/Divider';
 import Skeleton from '@/components/ui/Skeleton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import SaveProductButton from '../../user/components/SaveProductButton';
+import { setFeaturedProduct } from '../product-actions';
 import { getProductDetails, isSavedProduct } from '../product-queries';
 
 type Props = {
@@ -25,11 +27,19 @@ export default async function ProductDetails({ productId, children }: Props) {
   cacheTag('product-' + productId);
 
   const productDetails = await getProductDetails(productId);
+  const setFeaturedForProduct = setFeaturedProduct.bind(null, productId);
 
   return (
     <Boundary rendering="hybrid" hydration="server" cached>
       <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
-        <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
+        <div className="flex justify-between">
+          <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>
+          <form action={setFeaturedForProduct}>
+            <Button title="Mark as Featured" variant="secondary">
+              Feature This Product
+            </Button>
+          </form>
+        </div>
         <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
           <p>
             <span className="font-medium">Brand:</span> {productDetails?.brand || 'N/A'}

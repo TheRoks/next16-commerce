@@ -138,12 +138,30 @@ export const getSavedProducts = cache(async () => {
 export const getFeaturedProducts = cache(async (limit = 4) => {
   await slow();
 
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: 'desc' },
+  const featuredProducts = await prisma.product.findMany({
+    orderBy: { updatedAt: 'desc' },
     take: limit,
+    where: { featured: true },
   });
 
-  return products;
+  if (featuredProducts.length < limit) {
+    const additionalNeeded = limit - featuredProducts.length;
+    const featuredIds = featuredProducts.map(p => {
+      return p.id;
+    });
+
+    const recentProducts = await prisma.product.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: additionalNeeded,
+      where: {
+        id: { notIn: featuredIds },
+      },
+    });
+
+    return [...featuredProducts, ...recentProducts];
+  }
+
+  return featuredProducts;
 });
 
 export const getRecommendedProducts = cache(async (limit = 4) => {
@@ -215,3 +233,27 @@ export const getRecommendedProducts = cache(async (limit = 4) => {
 
   return recommendedProducts.slice(0, limit);
 });
+
+export async function setFeaturedProduct(productId: number) {
+  if (!productId || isNaN(productId) || productId <= 0) {
+    throw new Error('Invalid product ID');
+  }
+
+  // First, unfeatured all other products
+  await prisma.product.updateMany({
+    data: { featured: false },
+    where: { featured: true },
+  });
+
+  // Then feature the specified product
+  const updatedProduct = await prisma.product.update({
+    data: { featured: true },
+    where: { id: productId },
+  });
+
+  if (!updatedProduct) {
+    throw new Error('Product not found');
+  }
+
+  return updatedProduct;
+}
