@@ -2,11 +2,12 @@ import { User } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Boundary from '@/components/internal/Boundary';
-import { getCurrentAccount } from '@/features/auth/auth-queries';
+import { getCurrentAccount, getIsAuthenticated } from '@/features/auth/auth-queries';
 import LoginButton from '@/features/auth/components/LoginButton';
 
 export default async function UserProfile() {
   const account = await getCurrentAccount();
+  const loggedIn = await getIsAuthenticated();
 
   return (
     <Boundary rendering="dynamic" hydration="server">
@@ -14,7 +15,7 @@ export default async function UserProfile() {
         <div className="flex flex-col items-end gap-1">
           {account && <span className="text-sm font-medium tracking-wide">{account.name}</span>}
           <Suspense>
-            <LoginButton />
+            <LoginButton isLoggedIn={loggedIn} />
           </Suspense>
         </div>
         {account ? (

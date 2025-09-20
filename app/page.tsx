@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
-import WelcomeBanner from '@/components/banner/WelcomeBanner';
+import { WelcomeBanner } from '@/components/banner/WelcomeBanner';
 import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
@@ -16,7 +16,9 @@ export default async function HomePage() {
       <Suspense fallback={<HeroSkeleton />}>
         <Hero />
       </Suspense>
-      <WelcomeBanner />
+      <Suspense>
+        <WelcomeBanner />
+      </Suspense>
       <Suspense fallback={<PersonalizedSectionSkeleton />}>
         <PersonalizedSection />
       </Suspense>

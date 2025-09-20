@@ -1,11 +1,11 @@
+import { X } from 'lucide-react';
 import Link from 'next/link';
-import { Suspense } from 'react';
+
 import { getCurrentAccount, getIsAuthenticated } from '@/features/auth/auth-queries';
 import { getSavedProducts } from '@/features/product/product-queries';
 import { getUserDiscounts } from '@/features/user/user-queries';
 import { slow } from '@/utils/slow';
 import Boundary from '../internal/Boundary';
-import { BannerContainer } from './BannerContainer';
 
 export async function PersonalBanner() {
   await slow();
@@ -22,7 +22,7 @@ export async function PersonalBanner() {
   const firstName = account?.firstName || account?.name.split(' ')[0];
 
   return (
-    <Boundary hydration="server" rendering="dynamic">
+    <Boundary>
       <div className="flex flex-col justify-between">
         <span className="mb-3 inline-block w-fit bg-black px-2.5 py-1 text-xs font-bold tracking-[0.2em] text-white uppercase dark:bg-white dark:text-black">
           {featuredDiscount ? 'Exclusive Discount' : 'Welcome Back'}
@@ -71,7 +71,7 @@ export async function PersonalBanner() {
 
 export function GeneralBanner() {
   return (
-    <Boundary hydration="hybrid" rendering="static">
+    <Boundary>
       <div className="flex flex-col justify-between pb-6">
         <span className="mb-3 inline-block w-fit bg-black px-2.5 py-1 text-xs font-bold tracking-[0.2em] text-white uppercase dark:bg-white dark:text-black">
           Member Perks
@@ -88,12 +88,22 @@ export function GeneralBanner() {
   );
 }
 
-export default function WelcomeBanner() {
+export function WelcomeBanner() {
   return (
-    <BannerContainer>
-      <Suspense fallback={<GeneralBanner />}>
-        <PersonalBanner />
-      </Suspense>
-    </BannerContainer>
+    <Boundary>
+      <div className="border-divider dark:border-divider-dark from-accent/5 via-accent/3 dark:from-accent/10 dark:via-accent/5 relative border bg-gradient-to-tr to-transparent p-0 dark:to-transparent">
+        <div className="flex items-start justify-between gap-3 p-3 sm:gap-4 sm:p-5">
+          <div className="flex-1">
+            <PersonalBanner />
+          </div>
+          <button
+            className="group text-gray/70 hover:border-divider hover:text-accent dark:text-gray/60 dark:hover:text-accent -m-1 inline-flex h-6 w-6 items-center justify-center border border-transparent p-0 transition-colors"
+            aria-label="Dismiss banner"
+          >
+            <X aria-hidden className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </Boundary>
   );
 }

@@ -1,7 +1,4 @@
 import { Bookmark } from 'lucide-react';
-
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Button from '@/components/ui/Button';
@@ -22,16 +19,11 @@ export function preloadProductDetails(productId: number) {
 }
 
 export default async function ProductDetails({ productId, children }: Props) {
-  'use cache: remote';
-
-  cacheLife('max');
-  cacheTag('product-' + productId);
-
   const productDetails = await getProductDetails(productId);
   const setFeaturedForProduct = setFeaturedProduct.bind(null, productId);
 
   return (
-    <Boundary rendering="hybrid" hydration="server" cached>
+    <Boundary rendering="hybrid" hydration="server">
       <div className="border-divider dark:border-divider-dark w-full border bg-white p-5 dark:bg-black">
         <div className="flex justify-between">
           <h2 className="mb-4 text-lg font-bold tracking-tight">Product Details</h2>

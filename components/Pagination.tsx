@@ -28,7 +28,7 @@ export default function Pagination({
   };
 
   return (
-    <Boundary hydration="hybrid">
+    <Boundary>
       <div className="flex items-center gap-2">
         {currentPage > 1 && (
           <Link

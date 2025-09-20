@@ -1,5 +1,3 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
@@ -14,15 +12,10 @@ type Props = {
 };
 
 export default async function Product({ productId, details, imageClassName }: Props) {
-  'use cache: remote';
-
-  cacheLife('max');
-  cacheTag('product-' + productId);
-
   const product = await getProduct(productId);
 
   return (
-    <Boundary rendering="hybrid" hydration="server" cached>
+    <Boundary>
       <div className="flex flex-col bg-white dark:bg-black">
         <ImagePlaceholder className={imageClassName} />
         <div className="flex flex-1 flex-col p-5">

@@ -2,7 +2,7 @@ import { ArrowUp, ArrowDown } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import Search from '@/components/Search';
-import WelcomeBanner from '@/components/banner/WelcomeBanner';
+import { WelcomeBanner } from '@/components/banner/WelcomeBanner';
 import Boundary from '@/components/internal/Boundary';
 import LinkStatus from '@/components/ui/LinkStatus';
 import CategoryFilters, { CategoryFiltersSkeleton } from '@/features/category/components/CategoryFilters';
@@ -21,7 +21,9 @@ export default async function RootPage({ searchParams }: PageProps<'/'>) {
 
   return (
     <>
-      <WelcomeBanner />
+      <Suspense>
+        <WelcomeBanner />
+      </Suspense>
       <Search />
       <div className="flex h-full grow gap-12">
         <div className="hidden w-64 flex-shrink-0 md:block">

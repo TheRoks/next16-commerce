@@ -43,7 +43,7 @@ export default function Modal({ openModal, children, goBackOnClose = false, titl
       onCancel={handleClose}
       className="border-divider dark:border-divider-dark fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg border bg-white p-0 shadow-xl backdrop:bg-black/70 backdrop:backdrop-blur-md dark:bg-black dark:backdrop:bg-white/20"
     >
-      <Boundary hydration="client">
+      <Boundary>
         <div className="flex w-full flex-col">
           {title && (
             <h2 className="border-divider dark:border-divider-dark m-0 border-b px-5 py-4 text-lg font-semibold">

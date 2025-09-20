@@ -1,22 +1,13 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
-import LinkStatus from '@/components/ui/LinkStatus';
-import ShowMore from '@/components/ui/ShowMore';
 import { getCategories } from '../category-queries';
 
 export default async function Categories() {
-  'use cache: remote';
-
-  cacheTag('categories');
-  cacheLife('max');
-
   const categories = await getCategories();
 
   return (
-    <Boundary rendering="hybrid" cached>
-      <ShowMore initial={5}>
+    <Boundary>
+      <div>
         {categories.map(category => {
           return (
             <Boundary key={category} hydration="server">
@@ -26,13 +17,11 @@ export default async function Categories() {
                   query: { category },
                 }}
                 className="text-gray dark:text-gray hover:text-primary block text-sm transition-colors"
-              >
-                <LinkStatus variant="spinner">{category}</LinkStatus>
-              </Link>
+              />
             </Boundary>
           );
         })}
-      </ShowMore>
+      </div>
     </Boundary>
   );
 }
