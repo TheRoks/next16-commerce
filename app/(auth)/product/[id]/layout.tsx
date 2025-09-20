@@ -1,5 +1,3 @@
-'use cache: remote';
-
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
