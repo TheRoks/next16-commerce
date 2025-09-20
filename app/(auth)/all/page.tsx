@@ -1,12 +1,11 @@
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
-import Search from '@/components/Search';
-import WelcomeBanner from '@/components/banner/WelcomeBanner';
 import Boundary from '@/components/internal/Boundary';
 import LinkStatus from '@/components/ui/LinkStatus';
 import CategoryFilters, { CategoryFiltersSkeleton } from '@/features/category/components/CategoryFilters';
 import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
+import { slow } from '@/utils/slow';
 
 type SearchParams = {
   page?: string;
@@ -15,39 +14,36 @@ type SearchParams = {
   category?: string;
 };
 
-export default async function RootPage({ searchParams }: PageProps<'/'>) {
+export default async function AllPage({ searchParams }: PageProps<'/'>) {
+  await slow(10000);
   const { q, sort, page, category } = (await searchParams) as SearchParams;
   const currentPage = page ? parseInt(page, 10) : 1;
 
   return (
     <>
-      <WelcomeBanner />
-      <Search />
-      <div className="flex h-full grow gap-12">
-        <div className="hidden w-64 flex-shrink-0 md:block">
-          <div className="sticky top-4">
-            <h3 className="mb-5 text-lg font-bold tracking-tight uppercase">Categories</h3>
-            <Suspense fallback={<CategoryFiltersSkeleton />}>
-              <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
-            </Suspense>
-          </div>
-        </div>
-        <div className="flex flex-1 flex-col gap-6">
-          <div className="flex flex-col gap-4 md:hidden">
-            <Suspense fallback={<CategoryFiltersSkeleton />}>
-              <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
-            </Suspense>
-            <div className="flex justify-end">
-              <SortButton sort={sort} searchQuery={q} category={category} />
-            </div>
-          </div>
-          <div className="hidden justify-end md:flex">
-            <SortButton sort={sort} searchQuery={q} category={category} />
-          </div>
-          <Suspense fallback={<ProductListSkeleton />}>
-            <ProductList searchQuery={q} sort={sort} page={currentPage} category={category} />
+      <div className="hidden w-64 flex-shrink-0 md:block">
+        <div className="sticky top-4">
+          <h3 className="mb-5 text-lg font-bold tracking-tight uppercase">Categories</h3>
+          <Suspense fallback={<CategoryFiltersSkeleton />}>
+            <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
           </Suspense>
         </div>
+      </div>
+      <div className="flex flex-1 flex-col gap-6">
+        <div className="flex flex-col gap-4 md:hidden">
+          <Suspense fallback={<CategoryFiltersSkeleton />}>
+            <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
+          </Suspense>
+          <div className="flex justify-end">
+            <SortButton sort={sort} searchQuery={q} category={category} />
+          </div>
+        </div>
+        <div className="hidden justify-end md:flex">
+          <SortButton sort={sort} searchQuery={q} category={category} />
+        </div>
+        <Suspense fallback={<ProductListSkeleton />}>
+          <ProductList searchQuery={q} sort={sort} page={currentPage} category={category} />
+        </Suspense>
       </div>
     </>
   );
