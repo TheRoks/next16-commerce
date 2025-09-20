@@ -1,5 +1,3 @@
-'use cache: remote';
-
 import Modal from '@/components/ui/Modal';
 
 export default async function ProductModalLayout({ params, children }: LayoutProps<'/product/[id]'>) {
