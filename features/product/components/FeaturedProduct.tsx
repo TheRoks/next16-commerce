@@ -1,4 +1,3 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Boundary from '@/components/internal/Boundary';
 import ProductCard, { ProductCardSkeleton } from '@/components/ui/ProductCard';
@@ -8,7 +7,6 @@ export default async function FeaturedProductsSection() {
   'use cache';
 
   cacheTag('featured-product');
-  cacheLife('max');
 
   const products = await getFeaturedProducts(4);
 

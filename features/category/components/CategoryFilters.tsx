@@ -1,4 +1,3 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
@@ -15,7 +14,6 @@ export default async function CategoryFilters({ selectedCategory, searchQuery, s
   'use cache';
 
   cacheTag('categories');
-  cacheLife('max');
 
   const categories = await getCategories();
 

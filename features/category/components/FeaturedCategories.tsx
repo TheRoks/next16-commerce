@@ -1,4 +1,3 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
@@ -10,7 +9,6 @@ export default async function FeaturedCategories() {
   'use cache';
 
   cacheTag('categories');
-  cacheLife('max');
 
   const categoriesWithCount = await getCategoriesWithCount();
   const categoryList = categoriesWithCount.slice(0, 4);

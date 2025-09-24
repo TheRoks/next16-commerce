@@ -22,9 +22,7 @@ export default async function AllPage({ searchParams }: PageProps<'/'>) {
       <div className="hidden w-64 flex-shrink-0 md:block">
         <div className="sticky top-4">
           <h3 className="mb-5 text-lg font-bold tracking-tight uppercase">Categories</h3>
-          <Suspense fallback={<CategoryFiltersSkeleton />}>
-            <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
-          </Suspense>
+          <CategoryFilters selectedCategory={category} searchQuery={q} sort={sort} />
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-6">

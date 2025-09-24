@@ -1,6 +1,5 @@
 import { Bookmark } from 'lucide-react';
 
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
@@ -22,9 +21,8 @@ export function preloadProductDetails(productId: number) {
 }
 
 export default async function ProductDetails({ productId, children }: Props) {
-  'use cache';
+  'use cache: remote';
 
-  cacheLife('max');
   cacheTag('product-' + productId);
 
   const productDetails = await getProductDetails(productId);
