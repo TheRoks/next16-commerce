@@ -6,15 +6,21 @@ import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import Skeleton from '@/components/ui/Skeleton';
 import { getProducts } from '../product-queries';
 
-type Props = {
-  page?: number;
-  searchQuery?: string;
+type SearchParams = {
+  page?: string;
+  q?: string;
   sort?: 'asc' | 'desc';
   category?: string;
 };
 
-export default async function ProductList({ searchQuery, sort, page = 1, category }: Props) {
-  const { products, totalPages, currentPage } = await getProducts(searchQuery, sort, page, 9, category);
+type Props = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function ProductList({ searchParams }: Props) {
+  const { q, sort, page, category } = (await searchParams) as SearchParams;
+  const pageNumber = page ? parseInt(page, 10) : 1;
+  const { products, totalPages, currentPage } = await getProducts(q, sort, pageNumber, 9, category);
   const hasProducts = products.length > 0;
 
   if (!hasProducts) {
@@ -53,7 +59,7 @@ export default async function ProductList({ searchQuery, sort, page = 1, categor
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              searchQuery={searchQuery}
+              searchQuery={q}
               sort={sort}
               category={category}
             />

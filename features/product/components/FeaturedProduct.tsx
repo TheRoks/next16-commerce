@@ -1,6 +1,6 @@
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Boundary from '@/components/internal/Boundary';
-import ProductCard, { ProductCardSkeleton } from '@/components/ui/ProductCard';
+import ProductCard from '@/components/ui/ProductCard';
 import { getFeaturedProducts } from '../product-queries';
 
 export default async function FeaturedProductsSection() {
@@ -18,15 +18,5 @@ export default async function FeaturedProductsSection() {
         })}
       </div>
     </Boundary>
-  );
-}
-
-export function FeaturedProductsSkeleton() {
-  return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {Array.from({ length: 4 }).map((_, i) => {
-        return <ProductCardSkeleton key={i} />;
-      })}
-    </div>
   );
 }

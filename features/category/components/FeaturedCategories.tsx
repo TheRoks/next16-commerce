@@ -1,7 +1,6 @@
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
-import Skeleton from '@/components/ui/Skeleton';
 import { getCategoriesWithCount } from '../category-queries';
 import type { Route } from 'next';
 
@@ -40,19 +39,5 @@ export default async function FeaturedCategories() {
         })}
       </div>
     </Boundary>
-  );
-}
-
-export function FeaturedCategoriesSkeleton() {
-  return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {Array.from({ length: 4 }).map((_, i) => {
-        return (
-          <div key={i} className="border-divider dark:border-divider-dark dark:bg-card-dark border bg-white">
-            <Skeleton className="mb-[6px] p-6" />
-          </div>
-        );
-      })}
-    </div>
   );
 }

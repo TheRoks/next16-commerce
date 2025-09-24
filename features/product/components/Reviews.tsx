@@ -1,4 +1,5 @@
 import { Star } from 'lucide-react';
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import Boundary from '@/components/internal/Boundary';
 import { getReviews } from '../product-queries';
 
@@ -7,10 +8,14 @@ type Props = {
 };
 
 export default async function Reviews({ productId }: Props) {
+  'use cache';
+
+  cacheLife('seconds');
+
   const reviews = await getReviews(productId);
 
   return (
-    <Boundary rendering="hybrid" hydration="server">
+    <Boundary rendering="hybrid" cached hydration="server">
       <div className="space-y-4">
         {reviews.length === 0 ? (
           <p className="py-8 text-center text-gray-600 dark:text-gray-400">No reviews yet for this product.</p>

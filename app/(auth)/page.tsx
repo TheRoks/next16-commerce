@@ -4,17 +4,15 @@ import WelcomeBanner from '@/components/banner/WelcomeBanner';
 import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
-import FeaturedCategories, { FeaturedCategoriesSkeleton } from '@/features/category/components/FeaturedCategories';
-import FeaturedProductsSection, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProduct';
-import Hero, { HeroSkeleton } from '@/features/product/components/Hero';
+import FeaturedCategories from '@/features/category/components/FeaturedCategories';
+import FeaturedProductsSection from '@/features/product/components/FeaturedProduct';
+import Hero from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 
 export default async function HomePage() {
   return (
     <div className="flex flex-col gap-10">
-      <Suspense fallback={<HeroSkeleton />}>
-        <Hero />
-      </Suspense>
+      <Hero />
       <WelcomeBanner />
       <Suspense fallback={<PersonalizedSectionSkeleton />}>
         <PersonalizedSection />
@@ -25,13 +23,9 @@ export default async function HomePage() {
           View All →
         </Link>
       </div>
-      <Suspense fallback={<FeaturedCategoriesSkeleton />}>
-        <FeaturedCategories />
-      </Suspense>
+      <FeaturedCategories />
       <ProductsHeader />
-      <Suspense fallback={<FeaturedProductsSkeleton />}>
-        <FeaturedProductsSection />
-      </Suspense>
+      <FeaturedProductsSection />
       <Boundary rendering="static" hydration="server">
         <section className="grid gap-6 md:grid-cols-2">
           <PromoBanner />
