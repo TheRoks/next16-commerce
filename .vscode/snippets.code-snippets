@@ -1,16 +1,4 @@
 {
-    "formAction": {
-        "scope": "typescriptreact",
-        "prefix": "formAction",
-        "body": [
-            "<form action={signInOrRedirect}>",
-            "  <Button variant=\"primary\" title=\"Start Shopping\">",
-            "    Start Shopping <ArrowRight className=\"ml-2 h-4 w-4\" />",
-            "  </Button>",
-            "</form>",
-            "</Boundary>"
-        ],
-    },
     "welcomeBanner": {
         "scope": "typescriptreact",
         "prefix": "welcomeBanner",
