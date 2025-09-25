@@ -5,7 +5,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Geist } from 'next/font/google';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-
 import { BoundaryProvider } from '@/components/internal/BoundaryProvider';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import { AuthProvider } from '@/features/auth/components/AuthProvider';

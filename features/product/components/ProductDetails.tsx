@@ -1,5 +1,4 @@
 import { Bookmark } from 'lucide-react';
-
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';

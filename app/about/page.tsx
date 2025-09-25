@@ -1,5 +1,4 @@
 import { ArrowRight, Award, Gift, Package, RefreshCw, Shield, Truck } from 'lucide-react';
-
 import React from 'react';
 import Boundary from '@/components/internal/Boundary';
 import Card from '@/components/ui/Card';

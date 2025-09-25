@@ -1,6 +1,5 @@
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Boundary from '@/components/internal/Boundary';
-
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder';
 import LinkButton from '@/components/ui/LinkButton';
 import { getFeaturedProducts } from '../product-queries';
