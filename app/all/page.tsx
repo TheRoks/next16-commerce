@@ -6,7 +6,7 @@ import ProductList, { ProductListSkeleton } from '@/features/product/components/
 export default async function AllPage({ searchParams }: PageProps<'/'>) {
   return (
     <>
-      <div className="hidden w-64 flex-shrink-0 md:block">
+      <div className="hidden w-64 flex-shrink-0 lg:block">
         <div className="sticky top-4">
           <h3 className="mb-5 text-lg font-bold tracking-tight uppercase">Categories</h3>
           <Suspense fallback={<CategoryFiltersSkeleton />}>
@@ -15,7 +15,7 @@ export default async function AllPage({ searchParams }: PageProps<'/'>) {
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-6">
-        <div className="flex flex-col gap-4 md:hidden">
+        <div className="flex flex-col gap-4 lg:hidden">
           <Suspense fallback={<CategoryFiltersSkeleton />}>
             <CategoryFilters />
           </Suspense>
@@ -25,7 +25,7 @@ export default async function AllPage({ searchParams }: PageProps<'/'>) {
             </Suspense>
           </div>
         </div>
-        <div className="hidden justify-end md:flex">
+        <div className="hidden justify-end lg:flex">
           <Suspense fallback={<SortButtonSkeleton />}>
             <SortButton />
           </Suspense>
