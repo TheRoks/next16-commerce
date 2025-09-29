@@ -43,11 +43,13 @@ export default function Modal({ open, setOpen, children, goBackOnClose = false, 
           )}
           <div className="max-h-[70vh] overflow-y-auto p-5">{children}</div>
           <div className="border-divider dark:border-divider-dark flex justify-end border-t px-5 py-4">
-            <DialogDismiss>
-              <Button variant="secondary" type="button">
-                Close
-              </Button>
-            </DialogDismiss>
+            <DialogDismiss
+              render={
+                <Button variant="secondary" type="button">
+                  Close
+                </Button>
+              }
+            />
           </div>
         </div>
       </Dialog>
