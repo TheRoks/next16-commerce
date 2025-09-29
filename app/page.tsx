@@ -5,7 +5,7 @@ import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import FeaturedCategories from '@/features/category/components/FeaturedCategories';
-import FeaturedProductsSection from '@/features/product/components/FeaturedProduct';
+import FeaturedProducts from '@/features/product/components/FeaturedProducts';
 import Hero from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 
@@ -30,7 +30,7 @@ export default async function HomePage() {
           View All Products →
         </Link>
       </div>
-      <FeaturedProductsSection />
+      <FeaturedProducts />
       <Boundary rendering="static" hydration="server">
         <section className="grid gap-6 md:grid-cols-2">
           <div className="bg-accent/10 dark:bg-accent/20 border-divider dark:border-divider-dark border p-6">
