@@ -5,7 +5,7 @@ import Boundary from '@/components/internal/Boundary';
 import LinkButton from '@/components/ui/LinkButton';
 import { getIsAuthenticated } from '@/features/auth/auth-queries';
 import FeaturedCategories, { FeaturedCategoriesSkeleton } from '@/features/category/components/FeaturedCategories';
-import FeaturedProductsSection, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProduct';
+import FeaturedProductsSection, { FeaturedProductsSkeleton } from '@/features/product/components/FeaturedProducts';
 import Hero, { HeroSkeleton } from '@/features/product/components/Hero';
 import Recommendations, { RecommendationsSkeleton } from '@/features/user/components/Recommendations';
 
