@@ -5,7 +5,7 @@ import Card from '@/components/ui/Card';
 import Divider from '@/components/ui/Divider';
 import LinkButton from '@/components/ui/LinkButton';
 
-export default async function AboutPage() {
+export default function AboutPage() {
   return (
     <Boundary rendering="static">
       <div className="mx-auto max-w-6xl space-y-16">
