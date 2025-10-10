@@ -1,18 +1,26 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import Link from 'next/link';
-import { getCurrentAccount } from '@/features/auth/auth-queries';
-import { getSavedProducts } from '@/features/product/product-queries';
-import { getUserDiscounts } from '@/features/user/user-queries';
-import { slow } from '@/utils/slow';
+import { useState } from 'react';
+import useSWR from 'swr';
+import { fetcher } from '@/utils/fetcher';
 import Boundary from '../internal/Boundary';
 
 export function WelcomeBanner({ loggedIn }: { loggedIn: boolean }) {
+  const [dismissed, setDismissed] = useState(false);
+  if (dismissed) return null;
+
   return (
     <Boundary>
       <div className="border-divider dark:border-divider-dark from-accent/5 via-accent/3 dark:from-accent/10 dark:via-accent/5 relative border bg-gradient-to-tr to-transparent p-0 dark:to-transparent">
         <div className="flex items-start justify-between gap-3 p-3 sm:gap-4 sm:p-5">
           <div className="flex-1">{loggedIn ? <PersonalBanner /> : <GeneralBanner />}</div>
           <button
+            onClick={() => {
+              setDismissed(true);
+            }}
             className="group text-gray/70 hover:border-divider hover:text-accent dark:text-gray/60 dark:hover:text-accent -m-1 inline-flex h-6 w-6 items-center justify-center border border-transparent p-0 transition-colors"
             aria-label="Dismiss banner"
           >
@@ -24,21 +32,29 @@ export function WelcomeBanner({ loggedIn }: { loggedIn: boolean }) {
   );
 }
 
-export async function PersonalBanner() {
-  await slow();
+export function PersonalBanner() {
+  const { data, isLoading } = useSWR('/api/user-data', fetcher);
 
-  const [account, discounts, savedProducts] = await Promise.all([
-    getCurrentAccount(),
-    getUserDiscounts(),
-    getSavedProducts(),
-  ]);
+  if (isLoading) {
+    return <GeneralBanner />;
+  }
 
+  const { account, discounts, savedProducts } = data;
   const featuredDiscount = discounts[0];
   const firstName = account?.firstName || account?.name.split(' ')[0];
 
   return (
     <Boundary>
-      <div className="flex flex-col justify-between">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0.3, 1, 0.8, 1] }}
+        transition={{
+          duration: 0.8,
+          ease: 'easeInOut',
+          times: [0, 0.2, 0.4, 0.7, 1],
+        }}
+        className="flex flex-col justify-between"
+      >
         <span className="mb-3 inline-block w-fit bg-black px-2.5 py-1 text-xs font-bold tracking-[0.2em] text-white uppercase dark:bg-white dark:text-black">
           {featuredDiscount ? 'Exclusive Discount' : 'Welcome Back'}
         </span>
@@ -51,7 +67,8 @@ export async function PersonalBanner() {
                 {featuredDiscount.code}
               </span>{' '}
               for <span className="font-bold">{featuredDiscount.percentage}% off</span> –{' '}
-              {featuredDiscount.description.toLowerCase()}. Expires {featuredDiscount.expiry.toLocaleDateString()}.
+              {featuredDiscount.description.toLowerCase()}. Expires{' '}
+              {new Date(featuredDiscount.expiry).toLocaleDateString()}.
             </>
           ) : savedProducts.length > 0 ? (
             <>
@@ -79,7 +96,7 @@ export async function PersonalBanner() {
             </Link>
           )}
         </div>
-      </div>
+      </motion.div>
     </Boundary>
   );
 }

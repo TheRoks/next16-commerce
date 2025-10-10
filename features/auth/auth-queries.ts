@@ -1,17 +1,18 @@
 import 'server-only';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { cache } from 'react';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
 
-export const getIsAuthenticated = cache(async () => {
+export const getIsAuthenticated = async () => {
   const selectedAccountId = (await cookies()).get('selectedAccountId')?.value;
   if (!selectedAccountId) {
     return false;
   }
   return true;
-});
+};
 
 export const getAccount = cache(async (accountId: string) => {
   await slow();
@@ -53,7 +54,7 @@ export const getCurrentAccount = cache(async () => {
 export const getCurrentAccountWithDetails = cache(async () => {
   const selectedAccountId = (await cookies()).get('selectedAccountId')?.value;
   if (!selectedAccountId) {
-    throw new Error('Not authenticated');
+    redirect('/sign-in');
   }
 
   return getAccountWithDetails(selectedAccountId);
