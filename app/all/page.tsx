@@ -5,6 +5,8 @@ import CategoryFilters, { CategoryFiltersSkeleton } from '@/features/category/co
 import ProductList, { ProductListSkeleton } from '@/features/product/components/ProductList';
 
 export default async function AllPage({ searchParams }: PageProps<'/'>) {
+  const resolvedSearchParams = await searchParams;
+
   return (
     <>
       <Suspense fallback={<SearchSkeleton />}>
@@ -36,7 +38,7 @@ export default async function AllPage({ searchParams }: PageProps<'/'>) {
             </Suspense>
           </div>
           <Suspense fallback={<ProductListSkeleton />}>
-            <ProductList searchParams={searchParams} />
+            <ProductList searchParams={resolvedSearchParams} />
           </Suspense>
         </div>
       </div>
