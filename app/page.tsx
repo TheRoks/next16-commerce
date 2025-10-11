@@ -103,3 +103,53 @@ async function PersonalizedSection() {
     </>
   );
 }
+
+function ProductsHeader() {
+  return (
+    <Suspense fallback={<GeneralProductsHeader />}>
+      <Boundary rendering="dynamic">
+        <PersonalProductsHeader />
+      </Boundary>
+    </Suspense>
+  );
+}
+
+async function PersonalProductsHeader() {
+  const loggedIn = await getIsAuthenticated();
+  if (!loggedIn) return <GeneralProductsHeader />;
+
+  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">More Products</h2>;
+}
+
+function GeneralProductsHeader() {
+  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>;
+}
+
+function PromoBanner() {
+  return (
+    <Suspense fallback={<GeneralPromoBanner />}>
+      <Boundary rendering="dynamic">
+        <PersonalPromoBanner />
+      </Boundary>
+    </Suspense>
+  );
+}
+
+async function PersonalPromoBanner() {
+  const loggedIn = await getIsAuthenticated();
+  if (!loggedIn) return <GeneralPromoBanner />;
+
+  return (
+    <LinkButton href="/user" variant="primary">
+      Go to Dashboard
+    </LinkButton>
+  );
+}
+
+function GeneralPromoBanner() {
+  return (
+    <LinkButton href="/sign-in" variant="primary">
+      Sign In to Join
+    </LinkButton>
+  );
+}
