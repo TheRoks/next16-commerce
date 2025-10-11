@@ -106,14 +106,16 @@
 - We could continue this across the whole app, not changing anything in our component tree and structure.
 - Our authProvider does not make it dynamic as long as the components using it are suspended, just like searchParams!
 - For incrementally adopting, we need to start high up with a dep, then build down. Or use the plain useCache, but for future proofing, consider cache components.
-- My route tree is primarily the same, no refactors. Just following RSC best practices and adding caching. And doing gymnastics if I want to optimize, but thats totally voluntary. Every data fetch is server components! One paradigm, one mental model, composable by default.
+- My route tree is primarily the same, no refactors. Just following RSC best practices and adding caching. And doing gymnastics if I want to optimize, but thats totally voluntary.
 
 ## Final demo
 
 - Go to deployed version.
-- See all boundaries, cached stuff. Initial page loads. Almost my entire page is already available.
-- Again, every cached segment will be a part of the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations. That's only in deployed that prefetching is enabled.
+- Initial page loads. Almost my entire page is already available. So fast.
+- See all boundaries, cached stuff.
+- Again, every cached segment will be a part of the statically generated shell from Partial Prerendering, and can also be prefetched for even faster navigations.That's only in deployed that prefetching is enabled.
 - And with static shell prefetching, we don't see the params of the product on client side navs, because they're already known. We see them only on the initial load here, after that the remote cache handles it.
 - Show revalidation working with cacheTag.
 - Follow best practices and it should all just work out the box, giving you max performance.
-- There is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages. Just performance and composition by default.
+- There is no reason to be avoiding dynamic APIs anymore. There is not static and dynamic pages.
+- Every data fetch is server components! One paradigm, one mental model, performant and composable by default.
