@@ -12,7 +12,7 @@
 
 ## Excessive prop drilling -> component level fetching and authProvider: app/page.tsx
 
-- Team reported issues with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
+- Team reported issues with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page. Maybe we tried to be smart and share this to make the page faster.
 - I'm noticing some issues. Fetching auth state top level, passing down to multiple components, conditional rendering. This is a common problem, making our components less reusable and composable.
 - We don't need to fetch top level with server components. We can fetch inside components,and then utilize react cache() to avoid duplicate calls. Refactor to fetch inside components, improve structure. If using fetch it's auto deduped.
 - What about client components? In our header, getting the logged in state of a user on the server and passing it to the client. Always need this dep when using loginButton, forcing the parent to handle this.
