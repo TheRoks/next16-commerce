@@ -35,5 +35,24 @@
             "  return [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }];",
             "}"
         ]
+    },
+    "bookmarkSuspense": {
+        "scope": "typescriptreact",
+        "prefix": "bookmarkSuspense",
+        "body": [
+            "<Suspense fallback={<Bookmark aria-hidden className=\"text-gray size-5\" />}>",
+
+        ]
+    },
+    "suspenseWithFallback": {
+        "scope": "typescriptreact",
+        "prefix": "suspenseWithFallback",
+        "body": [
+            "<Suspense fallback={<Skeleton />}>",
+            "  ${TM_SELECTED_TEXT}",
+            "</Suspense>"
+        ],
+        "description": "Wraps selected component with Suspense and duplicates the name for fallback Skeleton."
     }
 }
+
