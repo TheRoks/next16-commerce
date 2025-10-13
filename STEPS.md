@@ -3,25 +3,25 @@
 ## Setup and problem
 
 - This is a e commerce demo app. The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
+- Demo app. Ecommerce mimic. Everything here looks pretty decent. Home page, browse page, login page, about page, profile page.
 - I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Could also use the underscore components. Services and queries talking to my db.
-- Demo app. Ecommerce mimic. Everything here looks pretty decent. Home page, browse page, login page, about page, profile page. Pretty good overall.
+- Purposefully added slowness to my data fetching.
 - Also using typed routes to get these page props and type safe links.
-- This is a regular next.js codebase, nothing fancy, however, keep in mind we have a pretty good mix of static and dynamic content.
+- This is a regular next.js codebase, nothing fancy, however, keep in mind we have a good mix of static and dynamic content.
 - Let's say the team here has reported issues with architecture and prop drilling, excessive client side JS, and need help utilizing static generation and caching.
 - The goal here is to improve this regular Next.js codebase and enhance it with modern patterns, regarding architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
-- Purposefully added slowness to my data fetching.
-- Improvements based on my exp building with server comp also and other codebases I have seen, and what devs commonly do wrong or struggle to find solutions for.
+- (Improvements based on my exp building with server comp also and other codebases I have seen, and what devs commonly do wrong or struggle to find solutions for).
 
 ## Excessive prop drilling -> component level fetching and authProvider: app/page.tsx
 
 - The first reported issue was with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
 - I'm noticing some issues. Fetching auth state top level, passing down to multiple components, conditional rendering. This is a common problem, making our components less reusable and composable.
 - We don't need to fetch top level with server components. Maybe we tried to be smart and share this to make the page faster. We can fetch inside components,and then utilize react cache() to avoid duplicate calls. Refactor to fetch inside components, improve structure. If using fetch it's auto deduped.
-- Lot's of login deps. Extract this to components handling their own responsibilities.
-- What about client WelcomeBanner, WelcomeBanner? Always need this dep when using loginButton, forcing the parent to handle this. This is a dep we will encounter forever into the future of our apps life. Passing it multiple levels down.
+- Lot's of login deps. Extract this to components handling their own responsibilities: PersonalizedSection, ProductsHeader, MembershipTile.
+- What about client WelcomeBanner, WelcomeBanner? Always need this dep when using WelcomeBanner, forcing the parent to handle this. This is a dep we will encounter forever into the future of our apps life. Passing it multiple levels down.
 - Add authprovider. Let's pass it as a promise down, keep it as a promise in the provider. Let's not await this and block the root page.
-- Welcomebanner: Rather read it with use() inside components. As long as it's suspended, no issue! Like params. WelcomeBanner is now composable again.
-- In our header, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here. Keep in mind we need to suspend this.
+- Welcomebanner: Rather read it with use() inside components, can even go two levels deeper here. Suspend Personalbanner with GeneralBanner, while promise resolves with use(). As long as it's suspended, no issue! Like params.  WelcomeBanner is now composable again.
+- In our user profile, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here. Keep in mind we need to suspend this.
 - Let's see another example of prop drilling, this all products page. Here, tried to be smart to avoid duplicate calls for my responsive view. But now, getCategories are tied to this page, and the loading state responsibility is on the page.
 - Big skeleton code, reusable skeletons but still, no content shown. CategoryFilters has a redundant dependency, less composable.
 - Call getCategories inside the CategoryFilters component, add react cache() deduping, not a problem.
