@@ -1,4 +1,3 @@
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import Boundary from '@/components/internal/Boundary';
 import ShowMore from '@/components/ui/ShowMore';
@@ -6,8 +5,6 @@ import { getCategories } from '../category-queries';
 
 export default async function Categories() {
   'use cache';
-
-  cacheTag('categories');
 
   const categories = await getCategories();
 
