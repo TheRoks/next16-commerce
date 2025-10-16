@@ -79,6 +79,27 @@ export default async function HomePage() {
   );
 }
 
+async function PersonalizedSection() {
+  return (
+    <>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
+          <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+            Personalized recommendations based on your interests
+          </p>
+        </div>
+        <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
+          View Saved →
+        </Link>
+      </div>
+      <Suspense fallback={<RecommendationsSkeleton />}>
+        <Recommendations />
+      </Suspense>
+    </>
+  );
+}
+
 async function PersonalMembershipTile() {
   const loggedIn = await getIsAuthenticated();
   if (!loggedIn) return <GeneralMembershipTile />;
@@ -100,14 +121,6 @@ function MembershipTile() {
   );
 }
 
-function GeneralProductsHeader() {
-  return (
-    <Boundary rendering="dynamic" hydration="server">
-      <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>
-    </Boundary>
-  );
-}
-
 function GeneralMembershipTile() {
   return (
     <Boundary rendering="dynamic" hydration="server">
@@ -115,26 +128,5 @@ function GeneralMembershipTile() {
         Sign In to Join
       </LinkButton>
     </Boundary>
-  );
-}
-
-async function PersonalizedSection() {
-  return (
-    <>
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Something for You?</h2>
-          <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-            Personalized recommendations based on your interests
-          </p>
-        </div>
-        <Link href="/user" className="text-xs font-semibold tracking-wide uppercase sm:text-sm">
-          View Saved →
-        </Link>
-      </div>
-      <Suspense fallback={<RecommendationsSkeleton />}>
-        <Recommendations />
-      </Suspense>
-    </>
   );
 }
