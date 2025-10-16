@@ -102,32 +102,38 @@ async function PersonalMembershipTile() {
 function ProductsHeader() {
   return (
     <Suspense fallback={<GeneralProductsHeader />}>
-      <Boundary>
+      <Boundary rendering="dynamic" hydration="server">
         <PersonalProductsHeader />
       </Boundary>
     </Suspense>
   );
 }
 
-function GeneralProductsHeader() {
-  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>;
-}
-
 function MembershipTile() {
   return (
     <Suspense fallback={<GeneralMembershipTile />}>
-      <Boundary>
+      <Boundary rendering="dynamic" hydration="server">
         <PersonalMembershipTile />
       </Boundary>
     </Suspense>
   );
 }
 
+function GeneralProductsHeader() {
+  return (
+    <Boundary rendering="dynamic" hydration="server">
+      <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>
+    </Boundary>
+  );
+}
+
 function GeneralMembershipTile() {
   return (
-    <LinkButton href="/sign-in" variant="primary">
-      Sign In to Join
-    </LinkButton>
+    <Boundary rendering="dynamic" hydration="server">
+      <LinkButton href="/sign-in" variant="primary">
+        Sign In to Join
+      </LinkButton>
+    </Boundary>
   );
 }
 
