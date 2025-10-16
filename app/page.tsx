@@ -81,6 +81,56 @@ export default async function HomePage() {
   );
 }
 
+async function PersonalProductsHeader() {
+  const loggedIn = await getIsAuthenticated();
+  if (!loggedIn) return <GeneralProductsHeader />;
+
+  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">More Products</h2>;
+}
+
+async function PersonalMembershipTile() {
+  const loggedIn = await getIsAuthenticated();
+  if (!loggedIn) return <GeneralMembershipTile />;
+
+  return (
+    <LinkButton href="/user" variant="primary">
+      Go to Dashboard
+    </LinkButton>
+  );
+}
+
+function ProductsHeader() {
+  return (
+    <Suspense fallback={<GeneralProductsHeader />}>
+      <Boundary>
+        <PersonalProductsHeader />
+      </Boundary>
+    </Suspense>
+  );
+}
+
+function GeneralProductsHeader() {
+  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>;
+}
+
+function MembershipTile() {
+  return (
+    <Suspense fallback={<GeneralMembershipTile />}>
+      <Boundary>
+        <PersonalMembershipTile />
+      </Boundary>
+    </Suspense>
+  );
+}
+
+function GeneralMembershipTile() {
+  return (
+    <LinkButton href="/sign-in" variant="primary">
+      Sign In to Join
+    </LinkButton>
+  );
+}
+
 async function PersonalizedSection() {
   return (
     <>
@@ -99,55 +149,5 @@ async function PersonalizedSection() {
         <Recommendations />
       </Suspense>
     </>
-  );
-}
-
-function ProductsHeader() {
-  return (
-    <Suspense fallback={<GeneralProductsHeader />}>
-      <Boundary>
-        <PersonalProductsHeader />
-      </Boundary>
-    </Suspense>
-  );
-}
-
-async function PersonalProductsHeader() {
-  const loggedIn = await getIsAuthenticated();
-  if (!loggedIn) return <GeneralProductsHeader />;
-
-  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">More Products</h2>;
-}
-
-function GeneralProductsHeader() {
-  return <h2 className="text-xl font-bold tracking-tight uppercase sm:text-2xl">Featured Products</h2>;
-}
-
-function MembershipTile() {
-  return (
-    <Suspense fallback={<GeneralMembershipTile />}>
-      <Boundary>
-        <PersonalMembershipTile />
-      </Boundary>
-    </Suspense>
-  );
-}
-
-async function PersonalMembershipTile() {
-  const loggedIn = await getIsAuthenticated();
-  if (!loggedIn) return <GeneralMembershipTile />;
-
-  return (
-    <LinkButton href="/user" variant="primary">
-      Go to Dashboard
-    </LinkButton>
-  );
-}
-
-function GeneralMembershipTile() {
-  return (
-    <LinkButton href="/sign-in" variant="primary">
-      Sign In to Join
-    </LinkButton>
   );
 }
