@@ -64,7 +64,11 @@ export async function SavedProduct({ productId }: { productId: number }) {
   const loggedIn = await getIsAuthenticated();
 
   if (!loggedIn) {
-    return <SaveProductButton productId={productId} initialSaved={false} />;
+    return (
+      <Boundary rendering="dynamic">
+        <SaveProductButton productId={productId} initialSaved={false} />;
+      </Boundary>
+    );
   }
 
   const productIsSaved = await isSavedProduct(productId);
