@@ -202,7 +202,6 @@ export const getRecommendedProducts = cache(async (limit = 4) => {
         where: {
           category: {
             equals: randomCategory,
-            mode: 'insensitive',
           },
           id: {
             notIn: savedProducts.map(sp => {
