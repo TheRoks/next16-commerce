@@ -4,7 +4,7 @@ import React, { Children, useState } from 'react';
 import Boundary from '../internal/Boundary';
 
 type Props = {
-  children: React.ReactNode[];
+  children: React.ReactNode;
   className?: string;
   initial?: number;
 };

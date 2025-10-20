@@ -10,7 +10,9 @@ export default async function Footer() {
     <footer className="bg-white dark:bg-black">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-10">
         <Suspense fallback={<CategoriesSkeleton />}>
-          <Categories />
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+            <Categories />
+          </div>
         </Suspense>
         <Boundary rendering="static">
           <div className="border-divider dark:border-divider-dark my-6 border-b" />

@@ -6,27 +6,21 @@ import { getCategories } from '../category-queries';
 export default async function Categories() {
   const categories = await getCategories();
 
-  return (
-    <Boundary>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-        {categories.map(category => {
-          return (
-            <Boundary key={category} hydration="server">
-              <Link
-                href={{
-                  pathname: '/all',
-                  query: { category },
-                }}
-                className="hover:text-accent dark:hover:text-accent block text-sm text-gray-700 transition-colors dark:text-gray-300"
-              >
-                <LinkStatus>{category}</LinkStatus>
-              </Link>
-            </Boundary>
-          );
-        })}
-      </div>
-    </Boundary>
-  );
+  return categories.map(category => {
+    return (
+      <Boundary key={category} hydration="server">
+        <Link
+          href={{
+            pathname: '/all',
+            query: { category },
+          }}
+          className="hover:text-accent dark:hover:text-accent block text-sm text-gray-700 transition-colors dark:text-gray-300"
+        >
+          <LinkStatus>{category}</LinkStatus>
+        </Link>
+      </Boundary>
+    );
+  });
 }
 
 export function CategoriesSkeleton() {

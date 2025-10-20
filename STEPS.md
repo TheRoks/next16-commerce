@@ -6,8 +6,8 @@
 - Demo app. Ecommerce mimic. Everything here looks pretty decent. Home page, browse page, product page, about page, login page, profile page. But too many loading states for an ecommerce app. Purposefully added slowness to my data fetching.
 - I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Services and queries talking to my db.
 - This is a regular next.js codebase, nothing fancy, however, keep in mind we have a good mix of static and dynamic content because of our user dependent features.
-- Let's say the team here has reported issues with architecture and prop drilling, excessive client side JS, and lack of static rendering strategies leading to additional server costs and degraded performance.
-- The goal here is to improve this regular Next.js codebase and enhance it with modern patterns, regarding architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
+- Let's again say the team here has reported issues with architecture and prop drilling, excessive client side JS, and lack of static rendering strategies leading to additional server costs and degraded performance.
+- The goal here is to improve this regular Next.js codebase and enhance it with modern patterns on architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
 - (Improvements based on my exp building with server comp also and other codebases I have seen, and what devs commonly do wrong or struggle to find solutions for).
 
 ## Excessive prop drilling -> component level fetching and authProvider: app/page.tsx
@@ -15,9 +15,9 @@
 - The first reported issue was with architecture and excessive prop drilling, making it hard to maintain and refactor features. Let's check out the home page.
 - I'm noticing some issues. Fetching auth state top level, passing down to components and using it for conditional rendering. This is a common problem, making our components less reusable and composable, and the code hard to read.
 - We don't need to fetch top level with server components. Maybe we tried to improve performance and share this to make the page faster, but that's not necessary, and we are blocking the initial load too. We can fetch inside components, and then utilize react cache() to avoid duplicate calls.
-- Refactor to add reach cache to deduplicate multiple calls to this per page load, if using fetch it's auto deduped. Fetch inside components, improve structure: PersonalizedSection suspend.
+- Refactor to add reach cache to deduplicate multiple calls to this per page load. If using fetch it's auto deduped. Fetch inside components, improve structure: PersonalizedSection suspend.
 - What about client WelcomeBanner, WelcomeBanner? Cant use my await isAuth. Always need this dep when using WelcomeBanner, forcing the parent to handle this dep, cant move this freely. This is a dep we will encounter forever into the future of our apps life. Passing it multiple levels down.
-- Let's utilize a smart pattern. Add authprovider. Let's not await this and block the root page, instead pass it as a promise down, keep it as a promise in the client provider.
+- We could pass it down as a promise, but probably this loggedIn dep will be encountered often. Let's instead utilize a smart pattern. Add authprovider. Let's not await this and block the root page, instead pass it as a promise down, keep it as a promise in the client provider.
 - Welcomebanner: Remove prop all the way down, rather read it with use() inside PersonalBanner. Now we need to suspend Personalbanner with GeneralBanner, ensuring we have a proper fallback and avoiding CLS, while promise resolves with use(). WelcomeBanner is now composable again.
 - Same problem in our user profile, getting the logged in state of a user on the server and passing it to the client. Do the same refactor here, login button composable and easily reused somewhere else in the future.
 - MembershipTile suspend general, same pattern as with our banner.
@@ -27,23 +27,23 @@
 - Call getCategories inside the CategoryFilters component, uses react cache() deduping, not a problem.
 - Delete loading.tsx since no data fetch here anymore. Refactor the /all page to use individual skeletons inside page.tsx for the categoryFilters.
 - Notice blocking in the network tab. The entire page is blocked on something. It's really hard to know where the blocking is coming from. This is a common problem. Turns out, its the ProductList data fetch, suspend this also.
-- See the streaming in network tab and improved perceived performance as well as actual performance. Also our search is now accessible. We fixed it, but it's really hard to know where the blocking was coming from. Let's see later how we can improve this.
+- See the streaming in network tab and improved perceived performance as well as actual performance. Also our search is now accessible. We fixed it, but it's really hard to know where the blocking was coming from. Let's see later how we can get help with this.
 - Since our welcomebanner is composable again, let's add it here.
-- Through that refactor we can now maintain good component architecture, reusable and composable by fetching inside components.
+- Through that refactor, by fetching inside components and utilizing cache() and use() we can now maintain good component architecture. Reusable and composable.
 
 ## Excessive client JS -> Client/Server composition: WelcomeBanner
 
 - The next reported issue was excessive client side JS.
-- Check out this client-side Pagination. Client side due to nav status with a transition. Preventing default. There are some new tools we can use to handle this very common use case better. Remove all client side code here and isPending. Lost interactivity.
+- Check out this client-side Pagination using search params. Client side due to nav status with a transition. Preventing default. There are some new tools we can use to handle this very common use case better. Remove all client side code here and isPending. Lost interactivity.
 - Replace with LinkStatus. A rather new nextjs feature, useLinkStatus. Like useFormStatus, avoid lack of feedback on stale navigation while waiting for the search param. See local pending state, using this also on the category links in the bottom here and the sort. Very small amount of client JS added, only what is needed for interactivity.
-- Revisit the WelcomeBanner. It's dismissing this with a useState(), and it has a motion.div animation. Switched to client side fetching with useSWR just to make this interactive, multiple ways to fetch now with API layer, no types.
+- Revisit the WelcomeBanner. It's dismissing this with a useState(), and it has a motion.div animation. Switched to client side fetching with useSWR just to make this dismissable and animated, multiple ways to fetch now with API layer, no types.
 - Also, we break separation of concerns by involving UI logic with data. Instead, let's extract a client component wrapper, and use whats referred to as the donut pattern. Cut all except top line of comp. New file bannerContainer: use client here, rename, children, wrapper. We won't covert the content of this to client because it's a prop, could be any prop. It's a reference to server-rendered content.
 - PersonalBanner remove use client and switch to server fetching getDiscountData, isAuth and return general, and delete API layer, no longer needed. Export WelcomeBanner client wrapper with suspense. Type safe also.
 - Still have an error. For the motion.div, this simple animation might still be forcing the entire banner to be client. Let's move this to a MotionWrapper component, that can be reused for other animations. Could also switch to a react view transition! Back to server components now.
-- By the way, using this client wrapper pattern with a boundary UI helper. Turn on hydration mode, marking my components. Mark the boundary in Welcomebanner so we can mark this as client. Mark Container client, see the donut pattern visual. Notice other boundaries, like client side search, and these server side categories.
-- I want to hide the excess categories if theres many. Notice the individual server components here. Let's do some RSC gymnastics. Replace div with ShowMore client wrapper and React.Children to maintain our separation of concerns, and reusability of the Categories component. Now, we have this interactive showmore wrapper. Notice the boundaries client and server, donut pattern again.
+- Mark the boundary in Welcomebanner so we can mark this as client. Mark Container client, see the donut pattern visual. Using this client wrapper pattern with a boundary UI helper. Turn on hydration mode, marking my components. Notice other boundaries, like client side search, and these server side categories.
+- I want to hide the excess categories if theres many. Notice the individual server components here. Let's do some RSC gymnastics. Replace div with ShowMore client wrapper and React.Children to maintain our separation of concerns. Now, we have this reusable and interactive ShowMore wrapper, and reusable categories. Notice the boundaries client and server, donut pattern again.
 - The compositional power of server components, Categories is passed into this ShowMore, handles its own data. Both can be used freely all over the app.
-- Donut pattern can be used for anything like this, i.e Carousels and more. Also using it for the modal, showcase modal boundary donut pattern again.
+- Donut pattern can be used for anything, like carousels and modals more. Actually using it for the modal, showcase modal boundary donut pattern again.
 - Now we have a pretty good architecture and best practice RSC patterns, which means we can move further to the last issue.
 
 ## Discuss dynamic issues
@@ -52,9 +52,9 @@
 - See build output: The entire app is entirely dynamic, problem is clear. Every page has a dynamic API dependency.
 - This is preventing us from caching anything or using ISR, even though so much of the app is static.
 - Wasting server resources constantly, quickly gets expensive. Crawlers will wait for content and it can be indexed, and the QWV is not terrible, but it's slower than it needs to be and redundant. Why is this happening?
-- The main culprit is actually this auth check in my layout. My header is hiding my user profile, which is using cookies, which is forcing dynamic rendering. Auth check in layout, which I definitely need. Classic. Everything I do is now dynamically being run on the server.
+- The main culprit is actually this auth check in my layout. My header is hiding my user profile, which is using cookies, which is forcing dynamic rendering. Auth check in layout, which I definitely need. Classic mistake. Everything I do is now dynamically being run on the server.
 - Even my non-user personalized content on my home screen like the featured product, I need to suspend too to avoid blocking the page, and even my about page which doesn't even have a dynamic API dep! Because remember, my pages are either be static OR dynamic.
-- This is a common issue and something that's been solved before. Let's briefly see which solutions people might resort to doing in previous versions of Next.
+- This is a common issue and something that's been solved before. Let's briefly see which solutions people might resort to in previous versions of Next.
 
 ### Static/dynamic split
 
@@ -75,11 +75,11 @@
 - And, hassle API endpoints, multiple data fetching strategies again. Pages routes flashbacks.
 - (And we're even breaking the sweet new feature typed routes! Need this as Route everywhere.)
 - And what about the home page, do we need to client side fetch everything user specific here too?
-- This is a viable pattern, and useful for things like feature flags and more regardless etc, but let's say we are actually not interested in rewriting our app, and want to keep it as simple as possible.
+- This is a viable pattern, and useful for many regardless etc, but let's say we are actually not interested in rewriting our app, and want to keep it as simple as possible.
 
 ## Mark dynamic/static components
 
-- What if we could avoid all of these tactics? Go back to real vscode.
+- What if we could avoid all of these smart workarounds? Go back to real vscode.
 - First', let's review the state of our app. Let's go back to our banner on the Home page.
 - Mixing static and dynamic rendering here, nice pattern to avoid CLS. Mark them both. Toggle the rendering boundary, see the dynamic static, user profile dynamic too.
 - What about these other ones? Hero, FeaturedCategories, FeaturedProducts.
