@@ -34,8 +34,8 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
                 </main>
               </AuthProvider>
             </div>
+            <Footer />
           </Boundary>
-          <Footer />
         </BoundaryProvider>
         <SpeedInsights />
         <Analytics />
