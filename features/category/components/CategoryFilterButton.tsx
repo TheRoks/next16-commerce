@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
-import Boundary from '@/components/internal/Boundary';
+
 import LinkStatus from '@/components/ui/LinkStatus';
 import { cn } from '@/utils/cn';
 
@@ -18,21 +18,19 @@ export default function CategoryFilterButton({ category, children }: Props) {
   const href = category ? { pathname: '/all', query: { category } } : { pathname: '/all' };
 
   return (
-    <Boundary hydration="client">
-      <Link scroll={false} href={href} className={cn('text-xs font-bold tracking-wide uppercase md:block')}>
-        <LinkStatus variant="spinner">
-          <div
-            className={cn(
-              'px-3 py-1.5 transition-colors md:w-full',
-              active
-                ? 'bg-accent text-white'
-                : 'border-divider dark:border-divider-dark border bg-white hover:bg-gray-50 dark:bg-black dark:hover:bg-gray-900',
-            )}
-          >
-            {children}
-          </div>
-        </LinkStatus>
-      </Link>
-    </Boundary>
+    <Link scroll={false} href={href} className={cn('text-xs font-bold tracking-wide uppercase md:block')}>
+      <LinkStatus variant="spinner">
+        <div
+          className={cn(
+            'px-3 py-1.5 transition-colors md:w-full',
+            active
+              ? 'bg-accent text-white'
+              : 'border-divider dark:border-divider-dark border bg-white hover:bg-gray-50 dark:bg-black dark:hover:bg-gray-900',
+          )}
+        >
+          {children}
+        </div>
+      </LinkStatus>
+    </Link>
   );
 }
