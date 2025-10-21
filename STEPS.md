@@ -85,19 +85,19 @@
 
 ### Home page
 
+- Enable cacheComponents. This will opt all our async calls into dynamic, and also give us errors whenever an async call does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
 - First', let's review the rendering strategy of our apps home page. Let's go back to our banner on the Home page.
 - Toggle the rendering boundary, see the dynamic WelcomeBanner, user profile dynamic too.
 - What about these other ones? For example Hero.
 - Hero.tsx is async, but doesn't depend on dynamic APIs. In this dynamic route, its slow. In a static, would be fast. Marked hybrid, also notice mark on FeaturedCategories, FeaturedProducts, not depending on dynamic APIs either.
 - Now, everything here that's marked as hybrid can be cached. It's async and fetching something, but it does not depend on request time information like cookies, so we can share it across multiple users. Notice how right now its loading on every request.
-- Enable cacheComponents. This will opt all our async calls into dynamic, and also give us errors whenever an async call does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
 - (Try "use cache" Home page, see the error. Dynamic components imported here.)
 - Add "use cache" to the Hero to cache this. Add cacheApis snippet: cacheTag for fine grained revalidation with revalidateTag, cacheLife revalidation period. Mark it as "cached". We can remove this suspense boundary and skeleton. See it's no longer loading.
 - (One cache key linked to components, no hassle revalidating many different pages).
 - And every cached segment will included in the statically generated shell from Partial Prerendering, cached on the CDN. PPR goes down as far as the cache goes, until it meets a dynamic API, like the WelcomeBanner or the PersonalizedSection. Our Hero can be included in the static shell.
 - Do the same for the FeaturedCategories and FeaturedProducts: use cache and mark, remove suspense. Less stress with skeletons and CLS.
-- If I had this auth dep here, PPR would not be able to include anything in the static shell. That's why my pattern of resolving promises deeper is good for both composition and caching.
 - Now they're all cached, no longer loading on every request. Only thing that loads is the personalized content. We are no longer bound to page level static/dynamic rendering.
+- If I had this auth dep here, PPR would not be able to include anything in the static shell. That's why my pattern of resolving promises deeper is good for both composition and caching.
 
 ### All page
 
