@@ -4,7 +4,6 @@ const nextConfig: NextConfig = {
   experimental: {
     clientSegmentCache: true,
     inlineCss: true,
-    routerBFCache: true,
   },
   reactCompiler: true,
   typedRoutes: true,
