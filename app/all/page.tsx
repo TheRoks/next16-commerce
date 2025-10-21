@@ -13,7 +13,7 @@ export default async function AllPage({ searchParams }: PageProps<'/'>) {
         <Search />
       </Suspense>
       <div className="flex h-full grow gap-12">
-        <div className="hidden w-64 flex-shrink-0 lg:block">
+        <div className="hidden w-64 shrink-0 lg:block">
           <div className="sticky top-4">
             <h3 className="mb-5 text-lg font-bold tracking-tight uppercase">Categories</h3>
             <CategoryFilters />

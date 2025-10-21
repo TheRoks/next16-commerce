@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
   experimental: {
     clientSegmentCache: true,
     inlineCss: true,
-    routerBFCache: true,
     staleTimes: {
       dynamic: 30,
     },
