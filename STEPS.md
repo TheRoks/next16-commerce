@@ -8,11 +8,12 @@
 - App router, I have all my pages here. I'm using feature slicing to keep the app router folder clean and easy to read. Services and queries talking to my db which is using Prisma ORM. Purposefully added slowness to my data fetching.
 - App actually has commonly seen issues with prop drilling making it hard to maintain and refactor features, excessive client side JS, and lack of static rendering strategies leading to additional server costs and degraded performance.
 - The goal here is to improve this regular Next.js codebase and enhance it with examples modern patterns on architecture, composition, and caching capabilities, to make it faster, more scalable, and easier to maintain.
+- To be able to take advantage of all the new features in next 16, we need to make sure we are following best practises for server components.
 - (Improvements based on my exp building with server comp also and other codebases I have seen, and what devs commonly do wrong or struggle to find solutions for).
 
 ## Excessive prop drilling -> component level fetching and authProvider: app/page.tsx
 
-- Let's start simple, the first issue is with architecture and excessive prop drilling. To be able to take advantage of all the new features in next 16, we need to make sure we are following best practises for server components.
+- Let's start simple, the first issue is with architecture and deep prop drilling.
 - I'm noticing some issues. Fetching auth state top level, passing to components multiple levels down. This is a common problem, making our components less reusable and composable, and the code hard to read.
 - But we are blocking the initial load, might be hard to know. We don't need to fetch top level with server components. Best practice is to push promises to resolve deeper down. We will see later how we can get help with this though.
 - Refactor to add reach cache to deduplicate multiple calls to this per page load. If using fetch it's auto deduped. Fetch inside components, improve structure: PersonalizedSection suspend.
@@ -50,12 +51,13 @@
 
 ## Discuss dynamic issues
 
-- The last issue is a lack of static rendering strategies. Demo again the problems.
+- The last issue is a lack of static rendering strategies.
 - See build output: The entire app is entirely dynamic, problem is clear. Every page has a dynamic API dependency.
-- This is preventing us from using static rendering benefits and for example using ISR, even though so much of the app is static. Wasting server resources constantly, slowing down our app. Why is this happening?
+- This is preventing us from using static rendering benefits and for example using ISR, even though so much of the app is static.
+- Demo all pages: wasting server resources constantly, slowing down our app. Why is this happening?
 - (Crawlers will wait for content and it can be indexed, and the QWV is not terrible, but it's slower than it needs to be).
-- The main culprit is actually this auth check in my layout. My header is hiding my user profile, which is using cookies, which is forcing dynamic rendering. Auth check in layout, which I definitely need. Classic mistake. Everything I do is now dynamically being run on the server.
-- Even my non-user personalized content on my home screen like the featured product, I need to suspend too to avoid blocking the page, and even my about page which doesn't even have a dynamic API dep! Because remember, my pages are either be static OR dynamic.
+- The main culprit is actually this auth check in my layout. My header is hiding my user profile, which is using cookies, which is forcing dynamic rendering. Auth check in layout, which I definitely need. Classic mistake. Everything I do is now dynamically being run on the server. Because remember, my pages are either be static OR dynamic.
+- (Even my non-user personalized content on my home screen like the featured product, I need to suspend too to avoid blocking the page, and even my about page which doesn't even have a dynamic API dep!)
 - This is a common issue and something that's been solved before. Let's briefly see which solutions people might resort to in previous versions of Next.
 
 ### Static/dynamic split
@@ -85,7 +87,7 @@
 
 ### Home page
 
-- Enable cacheComponents. This will opt all our async calls into dynamic, and also give us errors whenever an async call does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
+- There is a simpler way: Enable cacheComponents. This will opt all our async calls into dynamic, and also give us errors whenever an async call does not have a suspense boundary above it, and allow us to use the new 'use cache' directive to mark components, functions, or pages as cachable.
 - First', let's review the rendering strategy of our apps home page. Let's go back to our banner on the Home page.
 - Toggle the rendering boundary, see the dynamic WelcomeBanner, user profile dynamic too.
 - What about these other ones? For example Hero.
