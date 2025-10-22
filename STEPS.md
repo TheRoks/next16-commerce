@@ -132,4 +132,4 @@
 - (Params are already known for all links on the page. Clicking categories within the app already resolved search params, so the shell is already there. Only on reload can we see it resolve here).
 - (With just a few code changes and smart patterns, we improved components architecture, removed redundant client js and allowed for more component reuse, and by caching more content we increased performance drastically and reduce server costs.)
 - To summarize, there is no static OR dynamic pages. We don't need to be avoiding dynamic APIs anymore, or compromise dynamic content. Skip creating complex hacks or workarounds or add multiple data fetching strategies, and make the developer experience worse, just for that cache HIT.
-- In modern Next.js with cacheComponents, dynamic vs static is a scale, and we decide how much static we want in our apps. We can use this one mental model, performant, composable and salable by default.
+- In modern Next.js with cacheComponents, dynamic vs static is a scale, and we decide how much static we want in our apps. By following certain patterns, we can use this one mental model, performant, composable and salable by default.
